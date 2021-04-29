@@ -1,0 +1,15 @@
+{
+  "name": "jhu-idc/idc_export_module",
+  "description": "Metadata and Citation Export Module for JHU Islandora",
+  "type": "drupal-module",
+  "require": {
+    "drupal/csv_serialization": "~1.4 || ~2.0",
+    "citation-style-language/locales":"@dev",
+    "citation-style-language/styles-distribution":"@dev",
+     "seboettg/citeproc-php": "^2"
+  },
+  "require-dev": {
+    "drupal/search_api": "~1.12",
+    "drupal/xls_serialization": "~1.0"
+  }
+}

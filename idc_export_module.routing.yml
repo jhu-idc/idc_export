@@ -1,0 +1,7 @@
+idc-export-module.collections:
+  path: 'citation'
+  defaults:
+    _controller: '\Drupal\idc_export_module\Controller\CollectionsController::citations'
+  requirements:
+    _permission: 'access content'
+
