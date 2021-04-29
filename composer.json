@@ -1,5 +1,5 @@
 {
-  "name": "jhu-idc/idc_export_module",
+  "name": "jhu-idc/idc_export",
   "description": "Metadata and Citation Export Module for JHU Islandora",
   "type": "drupal-module",
   "require": {
