@@ -1,7 +1,7 @@
 name: 'iDC Export Module'
 type: module
 core: 8.x
-description: 'A module to support Citation and Metadata Export for JHU's Islandora'
+description: 'A module to support Citation and Metadata Export for Islandora'
 dependencies:
   - drupal:rest
   - drupal:views
