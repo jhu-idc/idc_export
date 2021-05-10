@@ -1,9 +1,9 @@
 <?php
-namespace Drupal\idc_export_module\Controller;
+namespace Drupal\idc_export\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 
-class CollectionsController extends ControllerBase {
+class CitationsController extends ControllerBase {
   public function citation() {
   }
 

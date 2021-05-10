@@ -92,3 +92,88 @@ function idc_export_views_query_alter(ViewExecutable $view, QueryPluginBase $que
   }
 }
 
+/**
+ * Implements hook_views_data_alter()
+ */
+function idc_export_views_data() {
+  //\Drupal::logger("idc_export")->info("keys for data: " . print_r(array_keys($data), true));
+  //\Drupal::logger("idc_export")->info("keys for node: " . print_r(array_keys($data['node']), true));
+  //\Drupal::logger("idc_export")->info("keys for node_field_data: " . print_r(array_keys($data['node_field_data']), true));
+    // The outermost keys of $data are Views table names, which should usually
+  // be the same as the hook_schema() table names.
+  $data = [];
+  $data['migrate_map_idc_ingest_new_items'] = [];
+
+  // The value corresponding to key 'table' gives properties of the table
+  // itself.
+  $data['migrate_map_idc_ingest_new_items']['table'] = [];
+
+  // Within 'table', the value of 'group' (translated string) is used as a
+  // prefix in Views UI for this table's fields, filters, etc. When adding
+  // a field, filter, etc. you can also filter by the group.
+  $data['migrate_map_idc_ingest_new_items']['table']['group'] = t('Example table');
+
+  // Within 'table', the value of 'provider' is the module that provides schema
+  // or the entity type that causes the table to exist. Setting this ensures
+  // that views have the correct dependencies. This is automatically set to the
+  // module that implements hook_views_data().
+  $data['migrate_map_idc_ingest_new_items']['table']['provider'] = 'migrate_plus';
+   $data['migrate_map_idc_ingest_new_items']['table']['base'] = [
+    // Identifier (primary) field in this table for Views.
+    'field' => 'nid',
+    // Label in the UI.
+    'title' => t('Item Migration Table'),
+    // Longer description in the UI. Required.
+    'help' => t('Migration content and can be related to nodes.'),
+    'weight' => -10,
+  ];
+
+  // Expose the uid as a relationship to users.
+  $data['node_field_data']['local_id'] = array(
+    'title' => t('Local ID'),
+    'help' => t('Relate a node migration id to the node it is.'),
+    'relationship' => array(
+      // table to connect to
+      'base' => 'migrate_map_idc_ingest_new_items',
+      // field for the join
+      'base field' => 'destid1',
+      // real database field to override local_id with
+      'field' => 'nid',
+      'id' => 'standard',
+      'label' => t('local ids relationship'),
+    ),
+  );
+
+  \Drupal::logger("idc_export")->info("DONE keys for node_field_data: " . print_r(array_keys($data['node_field_data']), true));
+  \Drupal::logger("idc_export")->info("DONE keys for migrate: " . print_r(array_keys($data['migrate_map_idc_ingest_new_items']), true));
+}
+/*
+
+	// CREATE THIS FIELD, then create a relationship from migration local id to it. 
+	// using this page for help: https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/function/hook_views_data_alter/8.5.x
+  $data['node']['field_local_id'] = array(
+    'title' => t('Node local_id'),
+    'field' => array(
+      'title' => t('Node local_id from migration'),
+      'help' => t('Shows the local_id from a migration, if there is one.'),
+      'id' => 'node_local_id',
+    ),
+  );
+
+  $data['node_field_data']['nid'] = array(
+    'title' => t('Migration Local ID'),
+    'help' => t('The Local ID of the object if it was created via migration.'),
+    'relationship' => array(
+      // Table to join to.
+      'base' => 'migrate_map_idc_ingest_new_items',
+      // Field in that table to join with.
+      'base field' => 'destid1',
+      // Field in the comment table to join with.
+      'field' => 'nid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('API documentation object'),
+      'title' => t('API documentation object'),
+      'help' => t('The Local ID the object was tagged with during migration.'),
+    ),
+  );
+} */

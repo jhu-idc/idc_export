@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\idc_export_module\Routing;
+namespace Drupal\idc_export\Routing;
 
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Symfony\Component\Routing\RouteCollection;
@@ -17,7 +17,7 @@ class RouteSubscriber extends RouteSubscriberBase {
 
     // Alter the canonical node route to our custom route
     if ($route = $collection->get('entity.node.canonical')) {
-      $route->setDefault('_controller', '\Drupal\idc_export_module\Controller\NodeDisplayController::view');
+      $route->setDefault('_controller', '\Drupal\idc_export\Controller\NodeDisplayController::view');
     }
   }
 }
