@@ -1,5 +1,4 @@
 services:
-  mymodule.route_subscriber:
-    class: Drupal\idc_export\Routing\RouteSubscriber
-    tags:
-      - { name: event_subscriber }
+  citations.default:
+    class: Drupal\idc_export\Service\CitationsService
+    arguments: []

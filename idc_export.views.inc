@@ -23,4 +23,37 @@ function idc_export_views_data_alter(&$data) {
       'id' => 'local_id',
     ),
   );
+
+  // add some citations fields - these will be populated fields
+  // MLA Citation
+  $data['search_api_index_default_solr_index']['citation_mla'] = array(
+    'title' => t('MLA Citation Field'),
+    'field' => array(
+      'title' => t('MLA Citation Field'),
+      'help' => t('Dynamically populated MLA Citation Field'),
+      'id' => 'citation_mla',
+    ),
+  );
+
+  // APA Citation Field
+  $data['search_api_index_default_solr_index']['citation_apa'] = array(
+    'title' => t('APA Citation Field'),
+    'field' => array(
+      'title' => t('APA Citation Field'),
+      'help' => t('Dynamically populated APA Citation Field'),
+      'id' => 'citation_apa',
+    ),
+  );
+
+  // Chicago Citation Field
+  $data['search_api_index_default_solr_index']['citation_chicago'] = array(
+    'title' => t('Chicago Citation Field'),
+    'field' => array(
+      'title' => t('Chicago Citation Field'),
+      'help' => t('Dynamically populated Chicago Citation Field'),
+      'id' => 'citation_chicago',
+    ),
+  );
+
+
 }
