@@ -48,8 +48,6 @@ class CitationMLA extends CitationField {
     //
     $metadata = $this->formatMetadata($values);
     $style = "modern-language-association";
-    //$style = "ieee";
-    //dpm($metadata);
     $citation = \Drupal::service('citations.default')->renderFromMetadata($metadata, $style, 'bibliography');
  
     \Drupal::logger('idc_export')->info('citation is ' . $citation);
