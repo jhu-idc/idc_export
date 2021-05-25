@@ -23,17 +23,20 @@ Right now the export uses batch functionality, which means it will create a file
 #### Export all the collection objects that have the word ‘zoo’ in them:
 `https://islandora-idc.traefik.me/export_collections?query=zoo`
 
+#### Export all the repository items that have the word ‘zoo’ in them:
+`https://islandora-idc.traefik.me/export_items?query=zoo`
+
 #### Export single item: 
 `https://islandora-idc.traefik.me/export_items?query=(its_nid:82)`
 
 #### Export all repository items, down through sub collections: 
-`https://islandora-idc.traefik.me/export_items?query=(itm_field_member_of:33)`
+`https://islandora-idc.traefik.me/export_collections?query=(itm_field_member_of:33)`
 
-You'll end up with _all_ the repository item descendents of the collection, including those that are part of all sub collections.
+You'll end up with _all_ the repository item descendents of the collection, including those that are part of any of its sub collections.
 
 #### Export all direct descendants of a collection:
 
-`https://islandora-idc.traefik.me/export_items?query=(its_field_member_of:33)`
+`https://islandora-idc.traefik.me/export_collections?query=(its_field_member_of:33)`
 
 You'll end up with all the items directly in the collection specified.
 
