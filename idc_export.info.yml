@@ -5,6 +5,7 @@ description: 'A module to support Citation and Metadata Export for Islandora'
 dependencies:
   - drupal:rest
   - drupal:views
+  - views_data_export:views_data_export
   - csv_serialization:csv_serialization
 version: '8.x-1.0'
 project: 'idc_export'
