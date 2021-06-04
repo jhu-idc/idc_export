@@ -5,7 +5,7 @@
 namespace Drupal\idc_export\Service;
 
 use Drupal\node\Entity\Node;
-use Seboettg\CiteProc\StyleSheet; 
+use Seboettg\CiteProc\StyleSheet;
 use Seboettg\CiteProc\CiteProc;
 
 /**
@@ -53,22 +53,22 @@ class CitationsService implements CitationsServiceInterface {
 
   public function getStylePath($style) {
   }
- 
+
   public function getStyleMetadata($style) {
     $style_path = \Drupal::service('citations.default')->getStylePath($style);
-    $xml = simplexml_load_file($style_path);    
+    $xml = simplexml_load_file($style_path);
     $style_metadata['path'] = $style_path;
-    $style_metadata['title'] = (string) $xml->info->title;    
-    foreach ($xml->info->link as $link) {    
-      switch ((string) $link['rel']) {    
-      case 'self':    
-        $style_metadata['url'] = (string) $link['href'];    
-        break;    
-      case 'documentation':    
-        $style_metadata['documentation'] = (string) $link['href'];    
-        break;    
-      }    
-    }    
+    $style_metadata['title'] = (string) $xml->info->title;
+    foreach ($xml->info->link as $link) {
+      switch ((string) $link['rel']) {
+      case 'self':
+        $style_metadata['url'] = (string) $link['href'];
+        break;
+      case 'documentation':
+        $style_metadata['documentation'] = (string) $link['href'];
+        break;
+      }
+    }
     return $style_metadata;
   }
 

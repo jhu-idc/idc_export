@@ -28,14 +28,13 @@ class CitationChicago extends CitationField {
    */
   public function render(ResultRow $values) {
     \Drupal::logger('idc_export')->info('rendering the node citation_chicago field');
-
-    \Drupal::logger('idc_export')->info('title via index: ' . $values->_item->getField('title')->getValues()[0]);
-    \Drupal::logger('idc_export')->info('title via index: ' . $values->_item->getField('field_description')->getValues()[0]);
+    //\Drupal::logger('idc_export')->info('title via index: ' . $values->_item->getField('title')->getValues()[0]);
+    //\Drupal::logger('idc_export')->info('description via index: ' . $values->_item->getField('field_description')->getValues()[0]);
 
     $metadata = $this->formatMetadata($values);
-    $style = 'chicago-author-date';  // TODO: does this include URL? time will tell... 
+    $style = 'chicago-author-date';  // TODO: does this include URL? time will tell...
     $citation = \Drupal::service('citations.default')->renderFromMetadata($metadata, $style, 'bibliography');
- 
+
     \Drupal::logger('idc_export')->info('citation is ' . $citation);
     return $this->t($citation);
   }
