@@ -35,6 +35,7 @@ class TaxonomyTermEntityReferenceCSVFormatter extends EntityReferenceLabelFormat
       // This assumes that `<entity_type>` is the default of `taxonomy_term` and
       // that the `<value_key>` is `name`, so they are not included here
 
+      // TODO -- fix this as well.  Revamp code
       $elements[$delta] = array(
         '#markup' => ':' . $entity->bundle() . '::' . $entity->get('name')->getString()
       );
