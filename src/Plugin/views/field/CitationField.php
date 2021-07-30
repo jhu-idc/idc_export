@@ -86,9 +86,10 @@ class CitationField extends FieldPluginBase {
     $contributors['rel_types'] = $values->_item->getField('field_contributor_rel_type')->getValues();
 
     $authors = $this->getAuthors($creators, $contributors);
+    $URL = $values->_item->getField('field_citable_url');
 
     //"title" => $values->_item->getField('title')->getValues()[0],
-
+    // refer to: https://github.com/citation-style-language/schema/blob/master/schemas/input/csl-data.json#L8
     $json_data = '
       [
           {
@@ -100,6 +101,7 @@ class CitationField extends FieldPluginBase {
                   }
               ],
               "id": "item-1",
+              "URL": "' . $URL . '"
               "issued": {
                   "date-parts": [
                       [
