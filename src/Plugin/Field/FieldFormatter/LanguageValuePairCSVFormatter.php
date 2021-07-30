@@ -18,6 +18,12 @@ use Drupal\Core\Form\FormStateInterface;
  * )
  */
 class LanguageValuePairCSVFormatter extends EntityReferenceLabelFormatter {
+
+  /**
+   * the delimiter used to separate fields in the formatting of the value
+   */
+  private const delimiter = ';;';
+
   /**
    * {@inheritdoc}
    */
@@ -27,7 +33,7 @@ class LanguageValuePairCSVFormatter extends EntityReferenceLabelFormatter {
     foreach ($this->getEntitiesToView($items, $langcode) as $delta => $entity) {
 
       $elements[$delta] = array(
-        '#markup' => $items[$delta]->value . ';;' . $items[$delta]->entity->get('field_language_code')->getString()
+        '#markup' => $items[$delta]->value . $this->delimiter . $items[$delta]->entity->get('field_language_code')->getString()
       );
       if (array_key_exists("#plain_text", $elements[$delta])) {
         unset($elements[$delta]["#plain_text"]);
