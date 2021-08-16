@@ -12,12 +12,12 @@ class EntityReferenceCSVFormatter extends EntityReferenceLabelFormatter {
   /**
    * the delimiter used to separate fields in the formatting of the value
    */
-  private const delimiter = ':';
+  protected const delimiter = ':';
 
   /**
    * the name of the field on the entity to pull the value from
    */
-  private const value_field = 'field_unique_id';
+  protected const value_field = 'field_unique_id';
 
   /**
    * Encode the provided string. If the delimiter is present in the string, this function will
