@@ -25,27 +25,37 @@ class TypedRelationCSVFormatter extends EntityReferenceCSVFormatter {
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = parent::viewElements($items, $langcode);
-    $agent_vocab = $this->getSetting('agent_type');
 
-    foreach ($this->getEntitiesToView($items, $langcode) as $delta => $term) {
-      $value = $term->get(self::value_field)->getString();
-      if (str_contains($value, self::delimiter)) {
-        $value = $this->encode($value);
-      }
+    foreach ($items as $delta => $item) {
+      $term = $item->entity;
+      if (isset($elements[$delta])) {
+        // Even if the config is to output links, this is not ever intended
+        // for CSV output of these.
+        if (array_key_exists("#title", $elements[$delta])) {
+          $elements[$delta]["#markup"] = $elements[$delta]["#title"];
+          unset($elements[$delta]["#url"]);
+          unset($elements[$delta]["#options"]);
+          unset($elements[$delta]["#type"]);
+        }
+        // The markup needs to end up in the format shown below so that the
+        // parse_entity_lookup in the migration (idc_migrate) can later import the material.
+        //
+        // `<entity_type>:<bundle>:<value_key>:<value>`
+        //
+        // This assumes that `<entity_type>` is the default of `taxonomy_term` and
+        // that the `<value_key>` is `name`, so they are not included here.
+        //
+        $value = $term->get(self::value_field)->getString();
+        if (str_contains($value, self::delimiter)) {
+          $value = $this->encode($value);
+        }
 
-      // The markup needs to end up in the format shown below so that the
-      // parse_entity_lookup in the migration (idc_migrate) can later import the material.
-      //
-      // `<entity_type>:<bundle>:<value_key>:<value>`
-      //
-      // This assumes that `<entity_type>` is the default of `taxonomy_item` and
-      // that the `<value_key>` is `name`, so they are not included here.
-      
-      $the_value = self::delimiter . $term->bundle() . self::delimiter . self::delimiter . $value;
-      $elements[$delta]['#markup'] = $term->rel_type . ';' . $the_value;
+        $the_value = self::delimiter . $term->bundle() . self::delimiter . self::delimiter . $value;
+        $elements[$delta]['#markup'] = $item->rel_type . ';' . $the_value;
 
-      if (array_key_exists("#plain_text", $elements[$delta])) {
-        unset($elements[$delta]["#plain_text"]);
+        if (array_key_exists("#plain_text", $elements[$delta])) {
+          unset($elements[$delta]["#plain_text"]);
+        }
       }
     }
     return $elements;
