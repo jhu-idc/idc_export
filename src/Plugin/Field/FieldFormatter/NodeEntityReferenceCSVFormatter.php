@@ -3,9 +3,7 @@
 
 namespace Drupal\idc_export\Plugin\Field\FieldFormatter;
 
-
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Field\Plugin\Field\FieldFormatter\EntityReferenceLabelFormatter;
 
 /**
  * Plugin implementation of the 'NodeEntityReferenceCSVFormatter'.
@@ -18,7 +16,8 @@ use Drupal\Core\Field\Plugin\Field\FieldFormatter\EntityReferenceLabelFormatter;
  *   }
  * )
  */
-class NodeEntityReferenceCSVFormatter extends EntityReferenceLabelFormatter {
+class NodeEntityReferenceCSVFormatter extends EntityReferenceCSVFormatter {
+
   /**
    * {@inheritdoc}
    */
@@ -35,8 +34,13 @@ class NodeEntityReferenceCSVFormatter extends EntityReferenceLabelFormatter {
       // This function assumes that `<entity_type>` is the default of `node` and
       // that the `<value_key>` is `title`, so they are not included here.
 
+      $value = $entity->get(self::value_field)->getString();
+      if (str_contains($value, self::delimiter)) {
+        $value = $this->encode($value);
+      }
+
       $elements[$delta] = array(
-        '#markup' => ':' . $entity->bundle() . '::' . $entity->get('title')->getString()
+        '#markup' => self::delimiter . $entity->bundle() . self::delimiter . self::delimiter . $value
       );
       if (array_key_exists("#plain_text", $elements[$delta])) {
         unset($elements[$delta]["#plain_text"]);

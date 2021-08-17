@@ -4,7 +4,6 @@
 //
 namespace Drupal\idc_export\Plugin\Field\FieldFormatter;
 
-use Drupal\Core\Field\Plugin\Field\FieldFormatter\EntityReferenceLabelFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -19,14 +18,13 @@ use Drupal\Core\Form\FormStateInterface;
  *   }
  * )
  */
-class TypedRelationCSVFormatter extends EntityReferenceLabelFormatter {
+class TypedRelationCSVFormatter extends EntityReferenceCSVFormatter {
 
   /**
    * {@inheritdoc}
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = parent::viewElements($items, $langcode);
-    $agent_vocab = $this->getSetting('agent_type');
 
     foreach ($items as $delta => $item) {
       $term = $item->entity;
@@ -39,18 +37,20 @@ class TypedRelationCSVFormatter extends EntityReferenceLabelFormatter {
           unset($elements[$delta]["#options"]);
           unset($elements[$delta]["#type"]);
         }
-        $string_value = (array_key_exists("#plain_text", $elements[$delta]) ?
-          $elements[$delta]['#plain_text'] : $elements[$delta]["#title"]);
-
         // The markup needs to end up in the format shown below so that the
         // parse_entity_lookup in the migration (idc_migrate) can later import the material.
         //
         // `<entity_type>:<bundle>:<value_key>:<value>`
-        // 
+        //
         // This assumes that `<entity_type>` is the default of `taxonomy_term` and
         // that the `<value_key>` is `name`, so they are not included here.
         //
-        $the_value = ':' . $term->bundle() . '::' . $string_value;
+        $value = $term->get(self::value_field)->getString();
+        if (str_contains($value, self::delimiter)) {
+          $value = $this->encode($value);
+        }
+
+        $the_value = self::delimiter . $term->bundle() . self::delimiter . self::delimiter . $value;
         $elements[$delta]['#markup'] = $item->rel_type . ';' . $the_value;
 
         if (array_key_exists("#plain_text", $elements[$delta])) {
