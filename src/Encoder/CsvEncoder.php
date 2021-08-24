@@ -180,7 +180,7 @@ class CsvEncoder implements EncoderInterface, DecoderInterface {
           }
           $csv->insertOne($row);
       }
-      $output = (string) $csv;
+      $output = $csv->getContent();
 
       return trim($output);
     }
