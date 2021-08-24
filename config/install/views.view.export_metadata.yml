@@ -15,6 +15,7 @@ dependencies:
     - field.storage.node.field_copyright_and_use
     - field.storage.node.field_copyright_holder
     - field.storage.node.field_creator
+    - field.storage.node.field_custodial_history
     - field.storage.node.field_date_available
     - field.storage.node.field_date_copyrighted
     - field.storage.node.field_date_created
@@ -46,6 +47,7 @@ dependencies:
     - field.storage.node.field_subject
     - field.storage.node.field_table_of_contents
     - field.storage.node.field_title_language
+    - field.storage.node.field_unique_id
     - field.storage.node.field_years
     - search_api.index.default_solr_index
   module:
@@ -82,7 +84,10 @@ display:
         options: {  }
       query:
         type: search_api_query
-        options: {  }
+        options:
+          skip_access: false
+          bypass_access: false
+          preserve_facet_query_args: false
       exposed_form:
         type: input_required
         options:
@@ -1424,6 +1429,77 @@ display:
             offset_label: Offset
           quantity: 9
       fields:
+        field_unique_id:
+          id: field_unique_id
+          table: search_api_datasource_default_solr_index_entity_node
+          field: field_unique_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: unique_id
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+          entity_type: node
+          plugin_id: search_api_field
         nid:
           id: nid
           table: search_api_datasource_default_solr_index_entity_node
@@ -1507,55 +1583,6 @@ display:
               - '@count'
           entity_type: node
           plugin_id: search_api_field
-        new_local_id:
-          id: new_local_id
-          table: search_api_index_default_solr_index
-          field: new_local_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: local_id
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          plugin_id: local_id
         title:
           id: title
           table: search_api_datasource_default_solr_index_entity_node
@@ -1687,7 +1714,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -1747,9 +1774,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -1758,7 +1785,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -1861,9 +1888,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -1872,7 +1899,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -1933,7 +1960,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: alternate_title
+          label: alternative_title
           exclude: false
           alter:
             alter_text: false
@@ -1986,7 +2013,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2057,7 +2084,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2128,7 +2155,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2188,9 +2215,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -2313,7 +2340,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -2427,7 +2454,78 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+          entity_type: node
+          plugin_id: search_api_field
+        field_custodial_history:
+          id: field_custodial_history
+          table: search_api_datasource_default_solr_index_entity_node
+          field: field_custodial_history
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: custodial_history
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: language_value_pair_csv
+          settings:
+            link: 0
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2565,7 +2663,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_date_copyrighted:
@@ -2674,7 +2772,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -2694,7 +2792,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -2702,7 +2800,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_date_created:
@@ -2811,7 +2909,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -2831,7 +2929,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -2839,7 +2937,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_date_published:
@@ -2948,7 +3046,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -2968,7 +3066,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -2976,7 +3074,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_description:
@@ -3039,7 +3137,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3047,7 +3145,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_digital_identifier:
@@ -3110,7 +3208,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3118,7 +3216,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_digital_publisher:
@@ -3181,7 +3279,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -3189,7 +3287,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
             display_methods:
               access_rights:
                 display_method: label
@@ -3400,7 +3498,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -3555,7 +3653,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3694,7 +3792,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -3707,7 +3805,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3767,9 +3865,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -3778,7 +3876,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -3883,7 +3981,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -4029,7 +4127,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -4113,7 +4211,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -4175,7 +4273,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -4248,9 +4346,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -4259,7 +4357,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4364,7 +4462,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -4377,7 +4475,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -4448,7 +4546,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4646,7 +4744,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -4717,7 +4815,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '| '
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4820,9 +4918,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -4831,7 +4929,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4934,9 +5032,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -4945,7 +5043,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5048,9 +5146,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -5059,7 +5157,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5173,7 +5271,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5287,7 +5385,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -5347,9 +5445,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -5518,7 +5616,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -5538,7 +5636,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -5580,11 +5678,14 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
               administrator: '0'
+              global_admin: '0'
+              collection_level_admin: '0'
               fedoraadmin: '0'
-              staff: '0'
+              anonymous: '0'
             placeholder: ''
+            expose_fields: false
+            searched_fields_id: ''
           is_grouped: false
           group_info:
             label: ''
@@ -5646,7 +5747,7 @@ display:
         operator: AND
         groups:
           1: AND
-      filename: idc-data-export-repo-items.csv
+      filename: 'idc-data-export-repo-items-[date:raw].csv'
       automatic_download: true
       store_in_public_file_directory: false
       redirect_to_display: none
@@ -5655,6 +5756,7 @@ display:
       export_method: batch
       export_batch_size: 3000
       redirect_path: /search
+      facet_settings: 'search_api:views_rest__solr_search_content__rest_export_1'
     cache_metadata:
       max-age: -1
       contexts:
@@ -5676,6 +5778,7 @@ display:
         - 'config:field.storage.node.field_copyright_and_use'
         - 'config:field.storage.node.field_copyright_holder'
         - 'config:field.storage.node.field_creator'
+        - 'config:field.storage.node.field_custodial_history'
         - 'config:field.storage.node.field_date_available'
         - 'config:field.storage.node.field_date_copyrighted'
         - 'config:field.storage.node.field_date_created'
@@ -5707,6 +5810,7 @@ display:
         - 'config:field.storage.node.field_subject'
         - 'config:field.storage.node.field_table_of_contents'
         - 'config:field.storage.node.field_title_language'
+        - 'config:field.storage.node.field_unique_id'
         - 'config:field.storage.node.field_years'
         - 'config:search_api.index.default_solr_index'
   data_export_2:
@@ -5901,6 +6005,77 @@ display:
             offset_label: Offset
           quantity: 9
       fields:
+        field_unique_id:
+          id: field_unique_id
+          table: search_api_datasource_default_solr_index_entity_node
+          field: field_unique_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: unique_id
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: false
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+          entity_type: node
+          plugin_id: search_api_field
         nid:
           id: nid
           table: search_api_datasource_default_solr_index_entity_node
@@ -5984,55 +6159,6 @@ display:
               - '@count'
           entity_type: node
           plugin_id: search_api_field
-        new_local_id:
-          id: new_local_id
-          table: search_api_index_default_solr_index
-          field: new_local_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: local_id
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          plugin_id: local_id
         title:
           id: title
           table: search_api_datasource_default_solr_index_entity_node
@@ -6153,9 +6279,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -6278,7 +6404,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -6349,7 +6475,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -6422,9 +6548,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_label
+          type: tax_term_entity_reference_csv
           settings:
-            link: false
+            link: 0
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -6433,7 +6559,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -6554,7 +6680,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '| '
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_collection_contact_name:
@@ -6625,7 +6751,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_collection_number:
@@ -6688,7 +6814,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -6696,7 +6822,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_description:
@@ -6759,7 +6885,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -6821,7 +6947,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 255
+            trim_length: 500
             url_only: true
             url_plain: true
             rel: '0'
@@ -6834,7 +6960,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: ', '
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -7019,7 +7145,7 @@ display:
         operator: AND
         groups:
           1: AND
-      filename: idc-data-export-collections.csv
+      filename: 'idc-data-export-collections-[date:raw].csv'
       automatic_download: true
       store_in_public_file_directory: false
       redirect_to_display: none
@@ -7028,6 +7154,7 @@ display:
       export_method: batch
       export_batch_size: 3000
       redirect_path: /search
+      facet_settings: 'search_api:views_rest__solr_search_content__rest_export_1'
     cache_metadata:
       max-age: -1
       contexts:
@@ -7050,4 +7177,5 @@ display:
         - 'config:field.storage.node.field_finding_aid'
         - 'config:field.storage.node.field_member_of'
         - 'config:field.storage.node.field_title_language'
+        - 'config:field.storage.node.field_unique_id'
         - 'config:search_api.index.default_solr_index'

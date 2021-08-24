@@ -11,6 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\views\ResultRow;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Drupal\controlled_accesss_terms\EDTFConverter;
 
 /**
  * Parent class to help the Citation Fields
@@ -27,21 +28,21 @@ class CitationField extends FieldPluginBase {
 
   protected function getAuthors($creators, $contributors) {
     \Drupal::logger('idc_export')->info('getAuthors');
-    $relators = Array( 'relators:aut' );
+    //$relators = Array( 'relators:aut', 'relators:pht' );
     $tids = Array();
     foreach ($creators['rel_types'] as $key => $relType) {
-      if (in_array($relType,$relators)) {
+     // if (in_array($relType,$relators)) {
         // add it
         $tids[] = $creators['target_ids'][$key];
-      }
+     // }
     }
-
+    /*
     foreach ($contributors['rel_types'] as $key => $relType) {
       if (in_array($relType, $relators)) {
         // add it
         $tids[] = $creators['target_ids'][$key];
       }
-    }
+    } */
 
     $tids = array_unique($tids, SORT_NUMERIC);
     return \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple($tids);
@@ -105,39 +106,35 @@ class CitationField extends FieldPluginBase {
     $contributors['rel_types'] = $values->_item->getField('field_contributor_rel_type')->getValues();
 
     $authors = $this->formatAuthors($this->getAuthors($creators, $contributors));
+    dpm($authors);
 
     $title = $values->_item->getField('title')->getValues()[0];
     $resourceTypes = $this->getResourceTypes($values->_item->getField('field_resource_type')->getValues());
     $dateAvail = $values->_item->getField('field_date_available')->getValues()[0];
-    // aka published.
-    /* This is a WIP and is not functioning yet.
-    $dateIssued = $values->_item->getField('field_date_published')->getValues();
-    $diArray = Array();
-    foreach($dateIssued as $date){
-      $diArray[] = Array(
-        "edtf" => Array($date)
-      );
-    }
-     */
+    $datePublished = $values->_item->getField('field_date_published')->getValues()[0];
+    dpm("date avail $dateAvail");
+    dpm("date published $datePublished");
+    dpm("Resource type: " . $resourceTypes[0]);
+
+    // EDTF is not supported by this processor so break apart the string as best we can.
+    $datePublished = EDTFConverter::dateIso8601Value($datePublished);
+    dpm("date published $datePublished");
 
     $data = Array(
       (object) Array(
         "author" => $authors,
         "id" => $values->_item->getField('nid')->getValues()[0],
+        "type" => utf8_encode($resourceTypes[0]),
         "issued" => (object) Array(
-          "edtf" => Array(
-            Array($dateAvail)
-          )
-        ),
-        //"issued" => (object) $diArray,
-        "available-date" => (object) Array(
-          "edtf" => Array($dateAvail)
+          "date-parts" => Array(Array("1971", "05", "19"))
+          //"raw" => "1971"
         ),
         "title" => utf8_encode($title),
-        "type" => $resourceTypes[0],
         "URL" => $values->_item->getField('field_citable_url')->getValues()[0]
       )
     );
+
+    dpm ($data);
 
  /*   $json_data = '
       [

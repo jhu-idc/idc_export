@@ -7,7 +7,8 @@
     "drupal/views_data_export": "^1.0",
     "citation-style-language/locales":"@dev",
     "citation-style-language/styles-distribution":"@dev",
-    "seboettg/citeproc-php": "^2"
+    "seboettg/citeproc-php": "^2",
+    "islandora/controlled-access-terms": "dev-8.x-1.x"
   },
   "require-dev": {
     "drupal/search_api": "~1.12",
