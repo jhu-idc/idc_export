@@ -110,8 +110,7 @@ class CitationField extends FieldPluginBase {
       case'person':
         \Drupal::logger('idc_export')->info('term is still from: ' . $term->bundle());
           if (count($term->field_primary_part_of_name->getValue())) {
-            // very ugly hack to get the comma
-            $author['family'] = $term->field_primary_part_of_name->value . ', ';
+            $author['family'] = $term->field_primary_part_of_name->value;
           }
           if (count($term->field_preferred_name_rest->getValue())) {
             $author['given'] = $term->field_preferred_name_rest->value;
@@ -122,8 +121,7 @@ class CitationField extends FieldPluginBase {
         break;
       case 'corporate_body':
           if (count($term->field_primary_name->getValue())) {
-            // very ugly hack to get the comma
-            $author['family'] = $term->field_primary_name->value . ', ';
+            $author['family'] = $term->field_primary_name->value;
           }
           if (count($term->field_subordinate_name->getValue())) {
             $author['given'] = $term->field_subordinate_name->value;
@@ -131,8 +129,7 @@ class CitationField extends FieldPluginBase {
         break;
       case 'family':
           if (count($term->field_family_name->getValue())) {
-            // very ugly hack to get the comma
-            $author['family'] = $term->field_family_name->value . ', ';
+            $author['family'] = $term->field_family_name->value;
           }
         break;
       default:
