@@ -28,6 +28,7 @@ class CitationsService implements CitationsServiceInterface {
     $stylesheet = StyleSheet::loadStyleSheet($style);
     $citeProc = new CiteProc($stylesheet);
     $citation = $citeProc->render($metadata, $mode);
+    dpm("citation: " . $citation);
 
     // We might, at some point, decide we need to send back css information, as well.
     // If so, we might want to rethink how this part of the project is done.

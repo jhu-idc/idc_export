@@ -13,7 +13,6 @@ use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
 use Seboettg\CiteProc\StyleSheet;
 use Seboettg\CiteProc\CiteProc;
-use Islandora\controlled_accesss_terms\EDTFConverter;
 
 /**
  * Field handler to get the local_id for a node
