@@ -37,7 +37,6 @@ class CitationField extends FieldPluginBase {
    * @return An array of taxonomy terms (tid->term) for all the creators/contributors passed in
    */
   private function getCreatorsAndContributors($creators, $contributors) {
-    \Drupal::logger('idc_export')->info('getAuthors');
 
     $tids = Array();
     foreach ($creators['rel_types'] as $key => $relType) {
@@ -108,7 +107,6 @@ class CitationField extends FieldPluginBase {
 
     switch ($term->bundle()) {
       case'person':
-        \Drupal::logger('idc_export')->info('term is still from: ' . $term->bundle());
           if (count($term->field_primary_part_of_name->getValue())) {
             $author['family'] = $term->field_primary_part_of_name->value;
           }
@@ -136,7 +134,6 @@ class CitationField extends FieldPluginBase {
     }
 
     $author['unique_id'] = $term->field_unique_id->value;
-    dpm($author);
     return $author;
   }
 
@@ -279,23 +276,21 @@ class CitationField extends FieldPluginBase {
   protected function formatMetadata(ResultRow $values) {
 
     // NOTE TO SELF: theses are search api fields, not node fields.
-    // values needed:
-    // $title = $values->_item->getField('title')->getValues()[0];
-    $creators = Array();
-    $contributors = Array();
-
-    $nid = $values->_item->getField('nid')->getValues()[0];
-    $node = \Drupal\node\Entity\Node::load($nid);
+    // Another note to self: another way to get info, but below we will just use the solr
+    // data for now.
+    //$nid = $values->_item->getField('nid')->getValues()[0];
+    //$node = \Drupal\node\Entity\Node::load($nid);
     //$node = $this->entityTypeManager->getStorage('node')->load($nid);
 
+    $creators = Array();
+    $contributors = Array();
     $creators['target_ids'] = $values->_item->getField('field_creator_id')->getValues();
     $creators['rel_types'] = $values->_item->getField('field_creator_rel_type')->getValues();
     $contributors['target_ids'] = $values->_item->getField('field_contributor')->getValues();
     $contributors['rel_types'] = $values->_item->getField('field_contributor_rel_type')->getValues();
-
     $creatorsContributorsArray = $this->formatCreatorsAndContributors($creators, $contributors);
-    //$title = $values->_item->getField('title')->getValues()[0];
-    $title = $node->getTitle();
+
+    $title = $values->_item->getField('title')->getValues()[0];
     $resource_types = $this->getResourceTypes($values->_item->getField('field_resource_type')->getValues());
     $publisher = $values->_item->getField('field_publisher')->getValues()[0];
     $digital_publisher = $values->_item->getField('field_digital_publisher')->getValues()[0];
@@ -303,61 +298,14 @@ class CitationField extends FieldPluginBase {
     // EDTF is not supported by this processor so we have to use date-parts instead
     $dates = $this->formatDates($values->_item->getField('field_date_available')->getValues());
 
-    /* this is a bit of test code to play with mb_string functions as well as iconv. Somewhere in the citeproc
-     * code things are failing on title with the following error:
-     *   Notice: iconv(): Wrong charset, conversion from `ISO-8859-1' to `UTF-8//IGNORE' is not allowed in
-     *   Symfony\Polyfill\Mbstring\Mbstring::mb_convert_case() (line 291 of /var/www/drupal/vendor/symfony/polyfill-mbstring/Mbstring.php)
-     * There seems to be some sort of incompabibility here, but I have yet to figure out how to stop it.
-     * It's only in the case where citeproc tries to capitolize the words in the title and fails, miserably.
-     *
-     * From what I can learn, mb_detect_encoding will work through either a list it has or a list you provide of encodings.
-     * The first one it matches to the string is the one it returns. If you revers the order in this array, your string will be
-     * match ASCII.  (which makes sense, but still annoying).
-    $encodings = ["ISO-8859-1", "UTF-8", "ASCII"];
-    $encoding = Mbstring::mb_detect_encoding($title, $encodings);
-    $nencoding = mb_detect_encoding($title, $encodings);
-    dpm("encoding of title is Mbstring: $encoding, php's: $nencoding");
-    // Do you believe in magic?  This line is necessary to force the conversion,
-    // else you end up getting and ASCII encoded string back for the next encoding
-    Mbstring::mb_detect_order(Array('UTF-8', 'ISO-8859-1'));
-    $newTitle = Mbstring::mb_convert_encoding($title, "UTF-8");
-    $encoding = Mbstring::mb_detect_encoding($newTitle, $encodings);
-    dpm("encoding of newTitle '$newTitle' is $encoding");
-
-    $utfTitle = utf8_encode($title);
-    $encoding = Mbstring::mb_detect_encoding($utfTitle, $encodings);
-    dpm("encoding of utfTitle '$utfTitle' is $encoding");
-
-    $decodedTitle = utf8_decode($utfTitle);
-    $encoding = Mbstring::mb_detect_encoding($decodedTitle, $encodings);
-    dpm("*decoding* of utfTitle '$decodedTitle' is $encoding");
-
-
-    $newUtfTitle = Mbstring::mb_convert_encoding($utfTitle, "ISO-8859-1");
-    $encoding = Mbstring::mb_detect_encoding($newUtfTitle, $encodings);
-    dpm("encoding of newUtfTitle '$newUtfTitle' is $encoding");
-
-
-    $convTitle = iconv('ASCII', 'ISO-8859-1', $title);
-    $encoding = Mbstring::mb_detect_encoding($convTitle, $encodings);
-    dpm("convTitle is '$convTitle', encoding: $encoding");
-    //Mbstring::mb_detect_order(Array('UTF-8', 'ISO-8859-1'));
-
-    // Note to self: If I add UTF-8 as an encoding in the ISO_ENCODING list,
-    // then things magically start to work just fine.
-    // Code that is failing me is in codebase/vendor/seboettg/citeproc-php/src/Seboettg/CiteProc/Util/StringHelper
-    //    function mb_ucfirst().
-    //
-     */
-
     $entry = Array(
         "id" => $values->_item->getField('nid')->getValues()[0],
         "type" => $resource_types[0],
         "issued" => (object) Array(
           "date-parts" => $dates
-          //"date-parts" => Array(Array("1971", "12", "10"))
-          //"raw" => "1971"
         ),
+        "ISSN" => $values->_item->getField('field_issn')->getValues()[0],
+        "collection-number" => $values->_item->getField('field_collection_number')->getValues()[0],
         "publisher" => $digital_publisher,
         "title" => $title,
         "URL" => $values->_item->getField('field_citable_url')->getValues()[0]
@@ -365,37 +313,11 @@ class CitationField extends FieldPluginBase {
 
     $this->populateCreatorsContributors($creatorsContributorsArray, $entry);
 
-    dpm("Finally: ");
-    dpm($entry);
-
+    //dpm($entry);
     $data = Array(
       (object) $entry
     );
- /*   $json_data = '
-      [
-          {
-              "author": [
-                  {
-                      "family": "Doe",
-                      "given": "James",
-                      "suffix": "III"
-                  }
-              ],
-              "id": "item-1",
-              "issued": {
-                  "date-parts": [
-                      [
-                          "2001"
-                      ]
-                  ]
-              },
-              "title": "My Anonymous Heritage",
-              "type": "book"
-          }
-      ]';
-*/
-    //$decoded = json_decode($json_data);
+
     return $data;
   }
-
 }
