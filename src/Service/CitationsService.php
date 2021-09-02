@@ -24,7 +24,6 @@ class CitationsService implements CitationsServiceInterface {
   }
 
   public function renderFromMetadata($metadata, $style, $mode) {
-    //dpm($metadata);
     $stylesheet = StyleSheet::loadStyleSheet($style);
     $citeProc = new CiteProc($stylesheet);
     $citation = $citeProc->render($metadata, $mode);
