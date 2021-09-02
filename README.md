@@ -7,7 +7,26 @@ This module will do / does a few things:
 
 ## Bibliographic Citations
 
-More soon - it's a work in progress.
+Bibliographic citations are available at the following endpoint: 
+
+ `https://islandora-idc.traefik.me/citation`
+ 
+And needs to be supplied a `nid` parameter, like so: 
+  `https://islandora-idc.traefik.me/citation?nid=99`
+  
+This endpoint will return JSON that looks like this: 
+
+```
+[
+  {
+    "nid": "99",
+    "field_citable_url": "https://islandora-idc.traefik.me/node/99",
+    "citation_apa": "<div class=\"csl-bib-body\">\n  <div class=\"csl-entry\">Adams, A. E. (2020). <i>Zoo Animal A</i>. Chicago Zoo. https://islandora-idc.traefik.me/node/99</div>\n</div>",
+    "citation_chicago": "<div class=\"csl-bib-body\">\n  <div class=\"csl-entry\">Ansel Easton Adams. 2020. <i>Zoo Animal A</i>. 1. Chicago Zoo. https://islandora-idc.traefik.me/node/99.</div>\n</div>",
+    "citation_mla": "<div class=\"csl-bib-body\">\n  <div class=\"csl-entry\">A. E. Adams. <i>Zoo Animal A</i>. Chicago Zoo, 1 Jan. 2020, https://islandora-idc.traefik.me/node/99.</div>\n</div>"
+  }
+]
+```
 
 ## Metadata Export
 Metadata export is performed via a few tools. One is the [Views Data Export](https://www.drupal.org/project/views_data_export) Drupal module, which provides the functionality to do the export itself, where the data is exported using a CSV serializer. Views Data Export helps create a REST endpoint through which a Solr query can be sent and data can be serialized into CSV.  A file link is returned and the user can download the results. 
