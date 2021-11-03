@@ -292,7 +292,6 @@ class CitationField extends FieldPluginBase {
 
     $title = $values->_item->getField('title')->getValues()[0];
     $resource_types = $this->getResourceTypes($values->_item->getField('field_resource_type')->getValues());
-    $publisher = $values->_item->getField('field_publisher')->getValues()[0];
     $digital_publisher = $values->_item->getField('field_digital_publisher')->getValues()[0];
 
     // EDTF is not supported by this processor so we have to use date-parts instead
@@ -304,8 +303,8 @@ class CitationField extends FieldPluginBase {
         "issued" => (object) Array(
           "date-parts" => $dates
         ),
-        "ISSN" => $values->_item->getField('field_issn')->getValues()[0],
-        "collection-number" => $values->_item->getField('field_collection_number')->getValues()[0],
+        "ISSN" => @$values->_item->getField('field_issn')->getValues()[0],
+        "collection-number" => @$values->_item->getField('field_collection_number')->getValues()[0],
         "publisher" => $digital_publisher,
         "title" => $title,
         "URL" => $values->_item->getField('field_citable_url')->getValues()[0]
