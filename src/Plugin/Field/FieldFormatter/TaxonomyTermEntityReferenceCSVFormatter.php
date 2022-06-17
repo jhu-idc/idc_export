@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\idc_export\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
@@ -32,19 +31,20 @@ class TaxonomyTermEntityReferenceCSVFormatter extends EntityReferenceCSVFormatte
       // `<entity_type>:<bundle>:<value_key>:<value>`
       //
       // This assumes that `<entity_type>` is the default of `taxonomy_term` and
-      // that the `<value_key>` is `name`, so they are not included here
-
+      // that the `<value_key>` is `name`, so they are not included here.
       $value = $entity->get(self::value_field)->getString();
       if (str_contains($value, self::delimiter)) {
         $value = $this->encode($value);
       }
-      $elements[$delta] = array(
+      $elements[$delta] = [
         '#markup' => self::delimiter . $entity->bundle() . self::delimiter . self::delimiter . $value
-      );
+      ];
       if (array_key_exists("#plain_text", $elements[$delta])) {
         unset($elements[$delta]["#plain_text"]);
       }
     }
     return $elements;
+
   }
+
 }

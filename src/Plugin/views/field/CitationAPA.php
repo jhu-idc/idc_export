@@ -1,11 +1,11 @@
 <?php
 
+namespace Drupal\idc_export\Plugin\views\field;
+
 /**
  * @file
- * Definition of Drupal\idc_export\Plugin\views\field\CitationAPA
+ * Definition of Drupal\idc_export\Plugin\views\field\CitationAPA.
  */
-
-namespace Drupal\idc_export\Plugin\views\field;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
@@ -15,7 +15,7 @@ use Seboettg\CiteProc\StyleSheet;
 use Seboettg\CiteProc\CiteProc;
 
 /**
- * Field handler to get the local_id for a node
+ * Field handler to get the local_id for a node.
  *
  * @ingroup views_field_handlers
  *
@@ -23,14 +23,18 @@ use Seboettg\CiteProc\CiteProc;
  */
 class CitationAPA extends CitationField {
 
+  // phpcs:ignore
   /**
    * @{inheritdoc}
    */
+  // phpcs:ignore
   public function render(ResultRow $values) {
     $metadata = $this->formatMetadata($values);
     $style = 'apa';
     $citation = \Drupal::service('citations.default')->renderFromMetadata($metadata, $style, 'bibliography');
 
     return $this->t($citation);
+
   }
+
 }

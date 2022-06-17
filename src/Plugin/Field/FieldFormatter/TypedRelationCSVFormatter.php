@@ -1,9 +1,8 @@
 <?php
 
-// Borrowed from ASU's asu_migrate module.
-//
 namespace Drupal\idc_export\Plugin\Field\FieldFormatter;
 
+// Borrowed from ASU's asu_migrate module.
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -59,5 +58,7 @@ class TypedRelationCSVFormatter extends EntityReferenceCSVFormatter {
       }
     }
     return $elements;
+
   }
+
 }
