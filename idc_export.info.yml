@@ -1,6 +1,5 @@
 name: 'iDC Export Module'
 type: module
-core: 8.x
 core_version_requirement: ^8 || ^9
 description: 'A module to support Citation and Metadata Export for Islandora'
 dependencies:
