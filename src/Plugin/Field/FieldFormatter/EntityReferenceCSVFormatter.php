@@ -10,6 +10,7 @@ use Drupal\Core\Field\Plugin\Field\FieldFormatter\EntityReferenceLabelFormatter;
  *
  * @FieldFormatter(
  *   id = "entity_reference_csv",
+ * )
  */
 class EntityReferenceCSVFormatter extends EntityReferenceLabelFormatter {
   /**
