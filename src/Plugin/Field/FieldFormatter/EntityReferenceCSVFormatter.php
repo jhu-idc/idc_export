@@ -6,7 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldFormatter\EntityReferenceLabelFormatter;
 
 /**
- * Plugin implementation of the 'entity_reference_csv' formatter.
+ * Plugin implementation of the "entity_reference_csv" formatter.
  *
  * @FieldFormatter(
  *   id = "entity_reference_csv",
