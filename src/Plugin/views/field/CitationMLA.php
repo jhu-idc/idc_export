@@ -1,11 +1,11 @@
 <?php
 
+namespace Drupal\idc_export\Plugin\views\field;
+
 /**
  * @file
- * Definition of Drupal\idc_export\Plugin\views\field\CitationMLA
+ * Definition of Drupal\idc_export\Plugin\views\field\CitationMLA.
  */
-
-namespace Drupal\idc_export\Plugin\views\field;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
@@ -15,7 +15,7 @@ use Seboettg\CiteProc\StyleSheet;
 use Seboettg\CiteProc\CiteProc;
 
 /**
- * Field handler to get the local_id for a node
+ * Field handler to get the local_id for a node.
  *
  * @ingroup views_field_handlers
  *
@@ -23,9 +23,11 @@ use Seboettg\CiteProc\CiteProc;
  */
 class CitationMLA extends CitationField {
 
+  // phpcs:ignore
   /**
    * @{inheritdoc}
    */
+  // phpcs:ignore
   public function render(ResultRow $values) {
     $metadata = $this->formatMetadata($values);
     $style = "modern-language-association";
@@ -33,4 +35,5 @@ class CitationMLA extends CitationField {
 
     return $this->t($citation);
   }
+
 }

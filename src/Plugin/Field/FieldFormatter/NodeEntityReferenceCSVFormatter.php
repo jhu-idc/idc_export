@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\idc_export\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
@@ -39,13 +38,15 @@ class NodeEntityReferenceCSVFormatter extends EntityReferenceCSVFormatter {
         $value = $this->encode($value);
       }
 
-      $elements[$delta] = array(
+      $elements[$delta] = [
         '#markup' => self::delimiter . $entity->bundle() . self::delimiter . self::delimiter . $value
-      );
+      ];
       if (array_key_exists("#plain_text", $elements[$delta])) {
         unset($elements[$delta]["#plain_text"]);
       }
     }
     return $elements;
+
   }
+
 }
