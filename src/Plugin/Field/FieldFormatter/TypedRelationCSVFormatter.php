@@ -44,12 +44,12 @@ class TypedRelationCSVFormatter extends EntityReferenceCSVFormatter {
         // This assumes that `<entity_type>` is the default of `taxonomy_term` and
         // that the `<value_key>` is `name`, so they are not included here.
         //
-        $value = $term->get(self::value_field)->getString();
-        if (str_contains($value, self::delimiter)) {
+        $value = $term->value;
+        if (str_contains($value, self::DELIMITER)) {
           $value = $this->encode($value);
         }
 
-        $the_value = self::delimiter . $term->bundle() . self::delimiter . self::delimiter . $value;
+        $the_value = self::DELIMITER . $term->bundle() . self::DELIMITER . self::DELIMITER . $value;
         $elements[$delta]['#markup'] = $item->rel_type . ';' . $the_value;
 
         if (array_key_exists("#plain_text", $elements[$delta])) {

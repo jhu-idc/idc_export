@@ -36,7 +36,8 @@ class EntityReferenceCSVFormatter extends EntityReferenceLabelFormatter {
    */
   protected function encode(string $DELIMITER, string $string): string {
     $encoded_delimiter = '';
-    foreach (str_split($delimiter) as $char) {
+
+    foreach (str_split($DELIMITER) as $char) {
       if (array_key_exists($char, self::reserved_char_map)) {
         $encoded_delimiter .= self::reserved_char_map[$char];
         continue;
@@ -44,7 +45,7 @@ class EntityReferenceCSVFormatter extends EntityReferenceLabelFormatter {
       $encoded_delimiter .= rawurlencode($char);
     }
 
-    $encoded_string = str_ireplace($delimiter, $encoded_delimiter, $string);
+    $encoded_string = str_ireplace($DELIMITER, $encoded_delimiter, $string);
 
     return $encoded_string;
   }

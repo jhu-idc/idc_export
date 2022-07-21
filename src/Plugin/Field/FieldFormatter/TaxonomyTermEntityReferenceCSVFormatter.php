@@ -32,12 +32,13 @@ class TaxonomyTermEntityReferenceCSVFormatter extends EntityReferenceCSVFormatte
       //
       // This assumes that `<entity_type>` is the default of `taxonomy_term` and
       // that the `<value_key>` is `name`, so they are not included here.
-      $value = $entity->get(self::value_field)->getString();
-      if (str_contains($value, self::delimiter)) {
+
+      $value = $entity->value;
+      if (str_contains($value, self::DELIMITER)) {
         $value = $this->encode($value);
       }
       $elements[$delta] = [
-        '#markup' => self::delimiter . $entity->bundle() . self::delimiter . self::delimiter . $value
+        '#markup' => self::DELIMITER . $entity->bundle() . self::DELIMITER . self::DELIMITER . $value
       ];
       if (array_key_exists("#plain_text", $elements[$delta])) {
         unset($elements[$delta]["#plain_text"]);
