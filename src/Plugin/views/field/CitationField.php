@@ -41,7 +41,7 @@ class CitationField extends FieldPluginBase {
    */
   // phpcs:ignore -- Ignore the array hint for now.
   private function getCreatorsAndContributors($creators, $contributors) {
-    // $tids = [];
+    $tids = [];
     foreach ($creators['rel_types'] as $key => $relType) {
       $tids[] = $creators['target_ids'][$key];
     }
